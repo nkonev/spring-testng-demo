@@ -7,6 +7,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
@@ -29,6 +30,9 @@ public class DemoApplicationTests extends AbstractTestNGSpringContextTests {
 			.build();
 
 	private String baseUrl;
+
+	@Autowired
+	private MyBean myBean;
 
 	@BeforeSuite(alwaysRun = true)
 	@Parameters({"baseUrl", "timeoutToStartSec", "kubernetesCheckTimes", "sleepBetweenRetry"})
@@ -84,7 +88,7 @@ public class DemoApplicationTests extends AbstractTestNGSpringContextTests {
 		ReadContext ctx = JsonPath.parse(json);
 		int numberOfPosts = ctx.read("$.data.length()", int.class);
 
-		Assert.assertEquals(2, numberOfPosts);
+		Assert.assertEquals(myBean.getPostNumber(), numberOfPosts);
 	}
 
 
