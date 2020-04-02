@@ -1,0 +1,47 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+		exclude group: 'org.junit.jupiter', module: 'junit-jupiter'
+		exclude group: 'org.mockito', module: 'mockito-junit-jupiter'
+
+
+	}
+	testImplementation 'com.squareup.okhttp3:okhttp'
+	testImplementation 'org.testng:testng:7.0.0'
+}
+
+// https://www.seleniumeasy.com/testng-tutorials/using-testng-with-gradle
+test {
+	useTestNG() {
+		useDefaultListeners = true
+		suites './testng.xml'
+	}
+
+	// listen to events in the test execution lifecycle
+	beforeTest { descriptor ->
+		logger.lifecycle("Running test: " + descriptor)
+	}
+
+	// Fail the 'test' task on the first test failure
+	failFast = false
+
+	// listen to standard out and standard error of the test JVM(s)
+	onOutput { descriptor, event ->
+		logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
+	}
+}

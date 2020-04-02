@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Main suite" verbose="1" >
+    <parameter name="timeoutToStartSec" value="72"/>
+    <parameter name="kubernetesCheckTimes" value="100"/>
+    <parameter name="sleepBetweenRetry" value="5"/>
+    <parameter name="baseUrl" value="https://nkonev.name"/>
+    <test name="Demo check tests" >
+        <packages>
+            <package name="com.example.demo" />
+        </packages>
+    </test>
+
+</suite>
